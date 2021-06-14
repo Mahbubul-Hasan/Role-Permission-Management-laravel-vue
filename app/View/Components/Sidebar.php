@@ -4,15 +4,13 @@ namespace App\View\Components\Backend;
 
 use Illuminate\View\Component;
 
-class Sidebar extends Component
-{
+class Sidebar extends Component {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         //
     }
 
@@ -21,8 +19,7 @@ class Sidebar extends Component
      *
      * @return \Illuminate\Contracts\View\View|string
      */
-    public function render()
-    {
-        return view('components.backend.sidebar');
+    public function render() {
+        return view('components.sidebar');
     }
 }

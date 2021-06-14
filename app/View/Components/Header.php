@@ -4,15 +4,13 @@ namespace App\View\Components\Backend;
 
 use Illuminate\View\Component;
 
-class Footer extends Component
-{
+class Header extends Component {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         //
     }
 
@@ -21,8 +19,7 @@ class Footer extends Component
      *
      * @return \Illuminate\Contracts\View\View|string
      */
-    public function render()
-    {
-        return view('components.backend.footer');
+    public function render() {
+        return view('components.header');
     }
 }

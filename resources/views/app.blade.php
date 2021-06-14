@@ -21,9 +21,9 @@
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
 
-            <x-backend.header/>
+            <x-header/>
 
-            <x-backend.sidebar/>
+            <x-sidebar/>
 
             <!-- Main Content -->
             <div class="main-content">
@@ -34,7 +34,7 @@
                 </section>
             </div>
 
-            <x-backend.footer/>
+            <x-footer/>
 
         </div>
     </div>
