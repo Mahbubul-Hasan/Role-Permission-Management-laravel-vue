@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\DashboardController;
 
 Route::prefix('admin')->group(function () {
