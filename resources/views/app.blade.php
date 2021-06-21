@@ -29,7 +29,7 @@
             <div class="main-content">
                 <section class="section">
 
-                    @yield('content')
+                    <router-view></router-view>
 
                 </section>
             </div>
