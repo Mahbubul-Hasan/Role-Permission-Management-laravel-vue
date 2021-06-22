@@ -1,8 +1,19 @@
-/**
- *
- * You can write your JS code here, DO NOT touch the default style file
- * because it will make it harder for you to update.
- * 
- */
+$.each($(".sidebar-menu .active"), function (index, value) {
+    $(value).parent().parent().addClass("active");
+});
 
-"use strict";
+$(".delete-item").click(function () {
+    if (confirm("Do you really want to delete this record?")) {
+        let url = $(this).data("url");
+        let token = $(this).data("token");
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { _method: "DELETE", _token: token },
+            dataType: "JSON",
+            success: function () {
+                location.reload();
+            },
+        });
+    }
+});

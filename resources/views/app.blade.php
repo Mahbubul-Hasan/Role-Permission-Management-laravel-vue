@@ -40,6 +40,7 @@
     </div>
 
     <!-- General JS Scripts -->
+    <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{ asset('/') }}assets/backend/modules/jquery.min.js"></script>
     <script src="{{ asset('/') }}assets/backend/modules/popper.js"></script>
     <script src="{{ asset('/') }}assets/backend/modules/tooltip.js"></script>
