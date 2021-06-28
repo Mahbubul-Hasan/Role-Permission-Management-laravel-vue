@@ -1,8 +1,11 @@
-$.each($(".sidebar-menu .active"), function (index, value) {
-    $(value).parent().parent().addClass("active");
+$.each($(".sidebar-menu .active"), function(index, value) {
+    $(value)
+        .parent()
+        .parent()
+        .addClass("active");
 });
 
-$(".delete-item").click(function () {
+$(".delete-item").click(function() {
     if (confirm("Do you really want to delete this record?")) {
         let url = $(this).data("url");
         let token = $(this).data("token");
@@ -11,9 +14,9 @@ $(".delete-item").click(function () {
             type: "POST",
             data: { _method: "DELETE", _token: token },
             dataType: "JSON",
-            success: function () {
+            success: function() {
                 location.reload();
-            },
+            }
         });
     }
 });

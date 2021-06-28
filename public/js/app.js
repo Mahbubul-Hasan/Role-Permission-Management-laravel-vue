@@ -1969,10 +1969,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.$store.dispatch("users");
-    console.log("Component mounted.");
   },
   computed: {
     users: function users() {
@@ -1992,7 +1996,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routes/router */ "./resources/js/routes/router.js");
-/* harmony import */ var _vueX_vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vueX/vuex */ "./resources/js/vueX/vuex.js");
+/* harmony import */ var _vuex_vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vuex/vuex */ "./resources/js/vuex/vuex.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
@@ -2001,7 +2005,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 var app = new Vue({
   el: "#app",
   router: _routes_router__WEBPACK_IMPORTED_MODULE_0__.default,
-  store: _vueX_vuex__WEBPACK_IMPORTED_MODULE_1__.default
+  store: _vuex_vuex__WEBPACK_IMPORTED_MODULE_1__.default
 });
 
 /***/ }),
@@ -2122,9 +2126,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
 
 /***/ }),
 
-/***/ "./resources/js/vueX/vuex.js":
+/***/ "./resources/js/vuex/vuex.js":
 /*!***********************************!*\
-  !*** ./resources/js/vueX/vuex.js ***!
+  !*** ./resources/js/vuex/vuex.js ***!
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -38016,13 +38020,21 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(user.email))]),
                           _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(user.is_admin ? "Yes" : "--") +
-                                "\n                                    "
-                            )
-                          ]),
+                          _c(
+                            "td",
+                            _vm._l(user.roles, function(role) {
+                              return _c(
+                                "span",
+                                {
+                                  key: role.id,
+                                  staticClass:
+                                    "badge badge-primary p-1 px-2 mr-1"
+                                },
+                                [_vm._v(_vm._s(role.name))]
+                              )
+                            }),
+                            0
+                          ),
                           _vm._v(" "),
                           _c("td", [_vm._v("Action")])
                         ])
@@ -38087,7 +38099,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Is Admin")]),
+        _c("th", [_vm._v("Role")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
@@ -38237,7 +38249,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /*!
-  * vue-router v3.5.1
+  * vue-router v3.5.2
   * (c) 2021 Evan You
   * @license MIT
   */
@@ -39800,7 +39812,7 @@ function createMatcher (
     createRouteMap([route || parentOrRoute], pathList, pathMap, nameMap, parent);
 
     // add aliases of parent
-    if (parent) {
+    if (parent && parent.alias.length) {
       createRouteMap(
         // $flow-disable-line route is defined if parent is
         parent.alias.map(function (alias) { return ({ path: alias, children: [route] }); }),
@@ -40871,7 +40883,13 @@ var HTML5History = /*@__PURE__*/(function (History) {
 
 function getLocation (base) {
   var path = window.location.pathname;
-  if (base && path.toLowerCase().indexOf(base.toLowerCase()) === 0) {
+  var pathLowerCase = path.toLowerCase();
+  var baseLowerCase = base.toLowerCase();
+  // base="/a" shouldn't turn path="/app" into "/a/pp"
+  // https://github.com/vuejs/vue-router/issues/3555
+  // so we ensure the trailing slash in the base
+  if (base && ((pathLowerCase === baseLowerCase) ||
+    (pathLowerCase.indexOf(cleanPath(baseLowerCase + '/')) === 0))) {
     path = path.slice(base.length);
   }
   return (path || '/') + window.location.search + window.location.hash
@@ -41364,7 +41382,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.5.1';
+VueRouter.version = '3.5.2';
 VueRouter.isNavigationFailure = isNavigationFailure;
 VueRouter.NavigationFailureType = NavigationFailureType;
 VueRouter.START_LOCATION = START;

@@ -28,7 +28,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Is Admin</th>
+                                        <th>Role</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -41,7 +41,12 @@
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>
-                                            {{ user.is_admin ? "Yes" : "--" }}
+                                            <span
+                                                v-for="role in user.roles"
+                                                :key="role.id"
+                                                class="badge badge-primary p-1 px-2 mr-1"
+                                                >{{ role.name }}</span
+                                            >
                                         </td>
                                         <td>Action</td>
                                     </tr>
@@ -66,7 +71,6 @@
 export default {
     mounted() {
         this.$store.dispatch("users");
-        console.log("Component mounted.");
     },
 
     computed: {

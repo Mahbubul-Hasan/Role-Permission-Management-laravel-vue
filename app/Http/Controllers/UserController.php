@@ -17,7 +17,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        $data = ['users' => User::all()];
+        $data = ['users' => User::with('roles')->get()];
         return response()->json($data, 200);
     }
 
