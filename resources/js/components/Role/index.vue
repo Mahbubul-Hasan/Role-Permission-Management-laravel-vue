@@ -14,11 +14,7 @@
             <div class="card row" id="settings-card">
                 <div class="col-12">
                     <div class="card-header d-flex flex-row-reverse px-0">
-                        <a
-                            class="btn btn-primary btn-icon icon-left rounded-0 text-light"
-                            href="#"
-                            ><i class="fas fa-plus"></i>Add Role</a
-                        >
+                        <router-link class="btn btn-primary btn-icon icon-left rounded-0 text-light" :to="{ name: 'roles.create' }"><i class="fas fa-plus"></i>Add Role</router-link>
                     </div>
                     <div class="card-body px-0">
                         <div class="table-responsive">
@@ -32,19 +28,11 @@
                                     </tr>
                                 </thead>
                                 <tbody v-if="roles">
-                                    <tr
-                                        v-for="(role, index) in roles"
-                                        :key="role.id"
-                                    >
+                                    <tr v-for="(role, index) in roles" :key="role.id" >
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ role.name }}</td>
                                         <td>
-                                            <span
-                                                v-for="permission in role.permissions"
-                                                :key="permission.id"
-                                                class="badge badge-primary p-1 px-2 mr-1"
-                                                >{{ permission.name }}</span
-                                            >
+                                            <span v-for="permission in role.permissions" :key="permission.id" class="badge badge-primary p-1 px-2 mr-1">{{ permission.name }}</span>
                                         </td>
                                         <td>Action</td>
                                     </tr>

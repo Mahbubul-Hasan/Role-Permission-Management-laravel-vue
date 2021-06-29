@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
+        permissions: [],
         roles: [],
         users: []
     },
 
     getters: {
+        permissions(state) {
+            return state.permissions;
+        },
         roles(state) {
             return state.roles;
         },
@@ -19,6 +23,11 @@ const store = new Vuex.Store({
     },
 
     actions: {
+        permissions(context) {
+            axios.get("/api/roles/create").then(({ data }) => {
+                context.commit("permissions", data.permissions);
+            });
+        },
         roles(context) {
             axios.get("/api/roles").then(({ data }) => {
                 context.commit("roles", data.roles);
@@ -32,6 +41,9 @@ const store = new Vuex.Store({
     },
 
     mutations: {
+        permissions(state, data) {
+            return (state.permissions = data);
+        },
         roles(state, data) {
             return (state.roles = data);
         },

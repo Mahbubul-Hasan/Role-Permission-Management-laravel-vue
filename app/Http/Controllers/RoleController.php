@@ -37,8 +37,8 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $permission = Permission::get();
-        return view('roles.create', compact('permission'));
+        $data = ['permissions' => Permission::get()->groupBy('group_name')];
+        return response()->json($data, 200);
     }
 
     /**

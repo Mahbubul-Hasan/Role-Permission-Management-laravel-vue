@@ -14,11 +14,7 @@
             <div class="card row" id="settings-card">
                 <div class="col-12">
                     <div class="card-header d-flex flex-row-reverse px-0">
-                        <a
-                            class="btn btn-primary btn-icon icon-left rounded-0 text-light"
-                            href="#"
-                            ><i class="fas fa-plus"></i>Add User</a
-                        >
+                        <a class="btn btn-primary btn-icon icon-left rounded-0 text-light" href="#" ><i class="fas fa-plus"></i>Add User</a>
                     </div>
                     <div class="card-body px-0">
                         <div class="table-responsive">
@@ -33,20 +29,12 @@
                                     </tr>
                                 </thead>
                                 <tbody v-if="users">
-                                    <tr
-                                        v-for="(user, index) in users"
-                                        :key="user.id"
-                                    >
+                                    <tr v-for="(user, index) in users" :key="user.id" >
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>
-                                            <span
-                                                v-for="role in user.roles"
-                                                :key="role.id"
-                                                class="badge badge-primary p-1 px-2 mr-1"
-                                                >{{ role.name }}</span
-                                            >
+                                            <span v-for="role in user.roles" :key="role.id" class="badge badge-primary p-1 px-2 mr-1">{{ role.name }}</span>
                                         </td>
                                         <td>Action</td>
                                     </tr>

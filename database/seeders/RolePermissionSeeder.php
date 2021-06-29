@@ -16,31 +16,34 @@ class RolePermissionSeeder extends Seeder {
     public function run() {
         $role = Role::create(['name' => 'Super Admin']);
 
+        $user = User::first();
+        $user->assignRole($role);
+
         $permissions = [
             [
-                'group_name'  => 'dashboard',
+                'group_name'  => 'Dashboard',
                 'permissions' => [
-                    'dashboard',
+                    'Dashboard',
                 ],
             ],
             [
-                'group_name'  => 'user',
+                'group_name'  => 'User',
                 'permissions' => [
-                    'user list',
-                    'create user',
-                    'edit user',
-                    'show user',
-                    'delete user',
+                    'User list',
+                    'Create user',
+                    'Edit user',
+                    'Show user',
+                    'Delete user',
                 ],
             ],
             [
-                'group_name'  => 'role',
+                'group_name'  => 'Role',
                 'permissions' => [
-                    'role list',
-                    'create role',
-                    'edit role',
-                    'show role',
-                    'delete role',
+                    'Role list',
+                    'Create role',
+                    'Edit role',
+                    'Show role',
+                    'Delete role',
                 ],
             ],
         ];
@@ -54,9 +57,5 @@ class RolePermissionSeeder extends Seeder {
                 $role->givePermissionTo($permission);
             }
         }
-
-        $user = User::first();
-        $user->assignRole($role);
-
     }
 }
