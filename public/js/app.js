@@ -1886,9 +1886,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.$store.dispatch("roles");
+  },
+  computed: {
+    roles: function roles() {
+      return this.$store.getters.roles;
+    }
   }
 });
 
@@ -2144,22 +2205,35 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
   state: {
+    roles: [],
     users: []
   },
   getters: {
+    roles: function roles(state) {
+      return state.roles;
+    },
     users: function users(state) {
       return state.users;
     }
   },
   actions: {
-    users: function users(context) {
-      axios.get("/api/users").then(function (_ref) {
+    roles: function roles(context) {
+      axios.get("/api/roles").then(function (_ref) {
         var data = _ref.data;
+        context.commit("roles", data.roles);
+      });
+    },
+    users: function users(context) {
+      axios.get("/api/users").then(function (_ref2) {
+        var data = _ref2.data;
         context.commit("users", data.users);
       });
     }
   },
   mutations: {
+    roles: function roles(state, data) {
+      return state.roles = data;
+    },
     users: function users(state, data) {
       return state.users = data;
     }
@@ -37958,19 +38032,121 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "section-body" }, [
+      _c("div", { staticClass: "card row", attrs: { id: "settings-card" } }, [
+        _c("div", { staticClass: "col-12" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body px-0" }, [
+            _c("div", { staticClass: "table-responsive" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _vm.roles
+                  ? _c(
+                      "tbody",
+                      _vm._l(_vm.roles, function(role, index) {
+                        return _c("tr", { key: role.id }, [
+                          _c("td", [_vm._v(_vm._s(index + 1))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(role.name))]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            _vm._l(role.permissions, function(permission) {
+                              return _c(
+                                "span",
+                                {
+                                  key: permission.id,
+                                  staticClass:
+                                    "badge badge-primary p-1 px-2 mr-1"
+                                },
+                                [_vm._v(_vm._s(permission.name))]
+                              )
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
+                          _c("td", [_vm._v("Action")])
+                        ])
+                      }),
+                      0
+                    )
+                  : _c("tbody", [_vm._m(3)])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "section-header" }, [
-        _c("h1", [_vm._v("Role")])
-      ]),
+    return _c("div", { staticClass: "section-header" }, [
+      _c("h1", [_vm._v("Role")]),
       _vm._v(" "),
-      _c("div", { staticClass: "section-body" })
+      _c("div", { staticClass: "section-header-breadcrumb" }, [
+        _c("div", { staticClass: "breadcrumb-item active" }, [
+          _c("a", { attrs: { href: "#" } }, [_vm._v("Dashboard")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "breadcrumb-item" }, [_vm._v("Role")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header d-flex flex-row-reverse px-0" },
+      [
+        _c(
+          "a",
+          {
+            staticClass:
+              "btn btn-primary btn-icon icon-left rounded-0 text-light",
+            attrs: { href: "#" }
+          },
+          [_c("i", { staticClass: "fas fa-plus" }), _vm._v("Add Role")]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Permissions")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "text-center", attrs: { colspan: "6" } }, [
+        _vm._v(
+          "\n                                        There is no role. Please insert role\n                                    "
+        )
+      ])
     ])
   }
 ]
