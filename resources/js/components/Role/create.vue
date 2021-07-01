@@ -14,14 +14,15 @@
         </div>
 
         <div class="section-body">
-            <form id="setting-form" action="#" method="POST" enctype="multipart/form-data">
+            <form id="setting-form" @submit.prevent="save_role">
                 <div class="card row" id="settings-card">
                     <div class="col-10">
                         <div class="card-body mt-5">
                             <div class="form-group row">
-                                <label for="inputName" class="form-control-label col-sm-3 text-md-right" >Name <span class="text-danger">*</span></label>
+                                <label for="inputRole" class="form-control-label col-sm-3 text-md-right">Role <span class="text-danger">*</span></label>
                                 <div class="col-sm-6 col-md-9">
-                                    <input type="text" name="name" class="form-control" id="inputName" value="" required />
+                                    <input type="text" name="role" v-model="form.role" class="form-control" id="inputRole" required />
+                                    <div v-if="form.errors.has('role')" v-html="form.errors.get('name')" />
                                 </div>
                             </div>
 
@@ -40,7 +41,7 @@
                                             </div>
                                             <div :class="`group-name-${ key }`">
                                                 <div class="custom-control custom-checkbox" v-for="permission in items" :key="permission.id" >
-                                                    <input type="checkbox" class="permission-name permission-checkbox custom-control-input" :id="`permission-${ permission.id }`" name="permissions[]" value="" />
+                                                    <input type="checkbox" class="permission-name permission-checkbox custom-control-input" :id="`permission-${ permission.id }`" name="permissions" v-model="form.permissions" :value="permission.id"/>
                                                     <label class="custom-control-label" :for="`permission-${ permission.id }`">{{ permission.name }}</label >
                                                 </div>
                                             </div>
@@ -61,7 +62,16 @@
 </template>
 
 <script>
+import Form from 'vform'
+
 export default {
+    data: () => ({
+        form: new Form({
+            name: '',
+            permissions: []
+        })
+    }),
+
     mounted() {
         this.$store.dispatch("permissions");
     },
@@ -69,6 +79,17 @@ export default {
     computed: {
         permissions() {
             return this.$store.getters.permissions;
+        }
+    },
+
+    methods: {
+        save_role () {
+            this.form.post('/api/roles').then((response) => {
+                if (response == 'success') {
+                    form.reset()
+                    this.$toastr.s("SUCCESS", "Role has been created successfully!");
+                }
+            })
         }
     }
 };

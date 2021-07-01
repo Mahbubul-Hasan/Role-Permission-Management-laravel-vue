@@ -49,14 +49,14 @@ class RoleController extends Controller {
      */
     public function store(Request $request) {
         $this->validate($request, [
-            'name'       => 'required|unique:roles,name',
-            'permission' => 'required',
+            'role'        => 'required|unique:roles,name',
+            'permissions' => 'required',
         ]);
 
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
+        $role = Role::create(['name' => $request->role]);
+        $role->syncPermissions($request->permissions);
 
-        return redirect()->route('roles.index')->with('success', 'Role created successfully');
+        return response()->json('success', 200);
     }
     /**
      * Display the specified resource.
