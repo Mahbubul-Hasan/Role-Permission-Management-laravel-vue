@@ -7,7 +7,7 @@
             <a href="{{ route('dashboard') }}">St</a>
         </div>
         <ul class="sidebar-menu">
-            <li class=active><router-link class="nav-link" :to="{ name: 'home'}"><i class="fas fa-fire"></i><span>Dashboard</span></router-link></li>
+            <li><router-link class="nav-link" :to="{ name: 'home'}"><i class="fas fa-fire"></i><span>Dashboard</span></router-link></li>
             <li class="dropdown">
                 <a href="javascript:void(0)" class="nav-link has-dropdown"><i class="fas fa-user-shield"></i><span>User Management</span></a>
                 <ul class="dropdown-menu">

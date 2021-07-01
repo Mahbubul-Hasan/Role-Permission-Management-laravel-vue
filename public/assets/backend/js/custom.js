@@ -1,9 +1,14 @@
-$.each($(".sidebar-menu .active"), function(index, value) {
-    $(value)
-        .parent()
-        .parent()
-        .addClass("active");
+$.each($(".router-link-exact-active.router-link-active"), function(index, value) {
+    $(value).parent().addClass("active");
+    $(value).parent().parent().parent().addClass("active");
 });
+
+$(".nav-link").on('click load', function () {
+    $('.nav-link').parent().removeClass("active");
+    $('.nav-link').parent().parent().parent().removeClass("active");
+    $('.router-link-exact-active.router-link-active').parent().addClass("active");
+    $('.router-link-exact-active.router-link-active').parent().parent().parent().addClass("active");
+})
 
 $(".delete-item").click(function() {
     if (confirm("Do you really want to delete this record?")) {
