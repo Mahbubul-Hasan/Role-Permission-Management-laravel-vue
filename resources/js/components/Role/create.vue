@@ -86,7 +86,7 @@ export default {
         save_role () {
             this.form.post('/api/roles').then((response) => {
                 if (response == 'success') {
-                    form.reset()
+                    this.form.reset()
                     this.$toastr.s("SUCCESS", "Role has been created successfully!");
                 }
             })

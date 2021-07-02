@@ -41,17 +41,18 @@ class UserController extends Controller {
         $this->validate($request, [
             'name'     => 'required',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
+            'password' => 'required|confirmed|min:6',
             'roles'    => 'required',
         ]);
 
         $input             = $request->all();
-        $input['password'] = Hash::make($input['password']);
+        $input['is_admin'] = 1;
+        $input['password'] = Hash::make($request->password);
 
         $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+        $user->assignRole($request->roles);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        return response()->json('success', 200);
     }
 
     /**

@@ -14,7 +14,7 @@
             <div class="card row" id="settings-card">
                 <div class="col-12">
                     <div class="card-header d-flex flex-row-reverse px-0">
-                        <a class="btn btn-primary btn-icon icon-left rounded-0 text-light" href="#" ><i class="fas fa-plus"></i>Add User</a>
+                        <router-link :to="{name: 'users.create'}" class="btn btn-primary btn-icon icon-left rounded-0 text-light"><i class="fas fa-plus"></i>Add User</router-link>
                     </div>
                     <div class="card-body px-0">
                         <div class="table-responsive">

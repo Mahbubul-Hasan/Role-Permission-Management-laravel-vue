@@ -5,16 +5,9 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>@yield('title') | {{ config("app.name") }}</title>
 
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="{{ asset('/') }}assets/backend/modules/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('/') }}assets/backend/modules/fontawesome/css/all.min.css">
-    <!-- CSS Libraries -->
-    @yield('style')
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('/') }}assets/backend/css/style.css">
-    <link rel="stylesheet" href="{{ asset('/') }}assets/backend/css/components.css">
-
-    @yield('extra_style')
+    <link rel="stylesheet" href="{{ asset('assets/backend/modules/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/all.css') }}">
 </head>
 
 <body>
@@ -39,17 +32,6 @@
         </div>
     </div>
 
-    <!-- General JS Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="{{ asset('/') }}assets/backend/modules/nicescroll/jquery.nicescroll.min.js"></script>
-    <script src="{{ asset('/') }}assets/backend/modules/moment.min.js"></script>
-    <script src="{{ asset('/') }}assets/backend/js/stisla.js"></script>
-    <!-- Page Specific JS File -->
-    @yield('script')
-    <!-- Template JS File -->
-    <script src="{{ asset('/') }}assets/backend/js/scripts.js"></script>
-    <script src="{{ asset('/') }}assets/backend/js/custom.js"></script>
-
-    @yield('extra_script')
 </body>
 </html>
