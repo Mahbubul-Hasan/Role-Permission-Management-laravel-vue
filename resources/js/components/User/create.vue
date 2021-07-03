@@ -124,6 +124,8 @@ export default {
             this.form.post('/api/users').then((response) => {
                 if (response.data == 'success') {
                     this.form.reset()
+                    this.multiSelectRoleObjs = null,
+
                     this.$toastr.s("User has been created successfully!", "SUCCESS");
                 }
             })

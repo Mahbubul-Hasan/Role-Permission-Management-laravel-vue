@@ -2190,7 +2190,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data == 'success') {
           _this.form.reset();
 
-          _this.$toastr.s("User has been created successfully!", "SUCCESS");
+          _this.multiSelectRoleObjs = null, _this.$toastr.s("User has been created successfully!", "SUCCESS");
         }
       });
     }
@@ -2419,11 +2419,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
-    this.$store.dispatch("users");
+    this.fetch_users();
   },
   computed: {
     users: function users() {
       return this.$store.getters.users;
+    }
+  },
+  methods: {
+    fetch_users: function fetch_users() {
+      return this.$store.dispatch("users");
+    },
+    delete_user: function delete_user(id) {
+      var _this = this;
+
+      if (confirm("Do you really want to delete?")) {
+        axios["delete"]("/api/users/".concat(id)).then(function (response) {
+          if (response.data == 'success') {
+            _this.fetch_users();
+
+            _this.$toastr.s("User has been deleted successfully!", "SUCCESS");
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
     }
   }
 });
@@ -42331,7 +42351,19 @@ var render = function() {
                                   [_c("i", { staticClass: "far fa-edit" })]
                                 ),
                                 _vm._v(" "),
-                                _vm._m(2, true)
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { href: "javascript:void(0)" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.delete_user(user.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fas fa-trash" })]
+                                )
                               ],
                               1
                             )
@@ -42340,7 +42372,7 @@ var render = function() {
                       }),
                       0
                     )
-                  : _c("tbody", [_vm._m(3)])
+                  : _c("tbody", [_vm._m(2)])
               ])
             ])
           ])
@@ -42383,19 +42415,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "btn btn-danger btn-sm delete-item",
-        attrs: { href: "javascript:void(0)" }
-      },
-      [_c("i", { staticClass: "fas fa-trash" })]
-    )
   },
   function() {
     var _vm = this

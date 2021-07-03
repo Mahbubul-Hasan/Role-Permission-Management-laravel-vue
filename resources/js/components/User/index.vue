@@ -39,7 +39,7 @@
                                         <td>
                                             <div class="btn-group mb-3" role="group" aria-label="Basic example">
                                                 <router-link :to="{ name: 'users.edit', params: { id: user.id } }" class="btn btn-info btn-sm"><i class="far fa-edit"></i></router-link>
-                                                <a class="btn btn-danger btn-sm delete-item" href="javascript:void(0)"><i class="fas fa-trash"></i></a>
+                                                <a href="javascript:void(0)" @click="delete_user(user.id)" class="btn btn-danger btn-sm" ><i class="fas fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -63,12 +63,31 @@
 <script>
 export default {
     mounted() {
-        this.$store.dispatch("users");
+        this.fetch_users();
     },
 
     computed: {
         users() {
             return this.$store.getters.users;
+        }
+    },
+
+    methods: {
+        fetch_users() {
+            return this.$store.dispatch("users");
+        },
+
+        delete_user (id) {
+            if(confirm("Do you really want to delete?")){
+                axios.delete(`/api/users/${id}`).then((response) => {
+                    if (response.data == 'success') {
+                        this.fetch_users();
+                        this.$toastr.s("User has been deleted successfully!", "SUCCESS");
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+            }
         }
     }
 };
