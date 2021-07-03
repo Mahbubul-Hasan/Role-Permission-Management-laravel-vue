@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -71,11 +69,12 @@ class UserController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user) {
-        $roles    = Role::pluck('name', 'name')->all();
-        $userRole = $user->roles->pluck('name', 'name')->all();
+    public function edit($id) {
+        $data = [
+            'user' => User::with('roles')->find($id),
+        ];
 
-        return view('users.edit', compact('user', 'roles', 'userRole'));
+        return response()->json($data, 200);
     }
 
     /**
@@ -89,23 +88,23 @@ class UserController extends Controller {
         $this->validate($request, [
             'name'     => 'required',
             'email'    => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'same:confirm-password',
+            'password' => 'nullable|confirmed|min:6',
             'roles'    => 'required',
         ]);
 
         $input = $request->all();
-        if (!empty($input['password'])) {
+        if ($request->has('password')) {
             $input['password'] = Hash::make($input['password']);
-        } else {
-            $input = Arr::except($input, array('password'));
         }
 
         $user->update($input);
-        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
-        $user->assignRole($request->input('roles'));
+        if (!is_array($request->roles[0])) {
+            $user->syncRoles($request->roles);
+        }
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return response()->json('success', 200);
+
     }
 
     /**

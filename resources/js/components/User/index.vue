@@ -36,7 +36,12 @@
                                         <td>
                                             <span v-for="role in user.roles" :key="role.id" class="badge badge-primary p-1 px-2 mr-1">{{ role.name }}</span>
                                         </td>
-                                        <td>Action</td>
+                                        <td>
+                                            <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                                <router-link :to="{ name: 'users.edit', params: { id: user.id } }" class="btn btn-info btn-sm"><i class="far fa-edit"></i></router-link>
+                                                <a class="btn btn-danger btn-sm delete-item" href="javascript:void(0)"><i class="fas fa-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tbody v-else>
