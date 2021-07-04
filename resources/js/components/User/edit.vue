@@ -14,7 +14,7 @@
         </div>
 
         <div class="section-body">
-            <form id="setting-form" @submit.prevent="save_user">
+            <form id="setting-form" @submit.prevent="update_user">
                 <div class="card row" id="settings-card">
                     <div class="col-10">
                         <div class="card-body mt-5">
@@ -117,7 +117,7 @@ export default {
             return this.form.roles = roles;
         },
 
-        save_user () {
+        update_user () {
             this.form.put(`/api/users/${ this.$route.params.id}`).then((response) => {
                 if (response.data == 'success') {
                     this.$toastr.s("User has been updated successfully!", "SUCCESS");

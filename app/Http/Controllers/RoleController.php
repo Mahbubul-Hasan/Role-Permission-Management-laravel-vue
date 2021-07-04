@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
@@ -77,10 +76,12 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role) {
-        $permission      = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')->all();
-
-        return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
+        $data = [
+            'role'            => $role,
+            'permissions'     => Permission::all(),
+            'rolePermissions' => $role->getAllPermissions(),
+        ];
+        return response()->json($data, 200);
     }
 
     /**
@@ -92,16 +93,14 @@ class RoleController extends Controller {
      */
     public function update(Request $request, Role $role) {
         $this->validate($request, [
-            'name'       => 'required',
-            'permission' => 'required',
+            'role'        => 'required|unique:roles,name,' . $role->id,
+            'permissions' => 'required',
         ]);
 
-        $role->name = $request->input('name');
-        $role->save();
+        $role->update(['name' => $request->role]);
+        $role->syncPermissions($request->permissions);
 
-        $role->syncPermissions($request->input('permission'));
-
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully');
+        return response()->json('success', 200);
     }
     /**
      * Remove the specified resource from storage.

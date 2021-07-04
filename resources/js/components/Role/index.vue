@@ -34,7 +34,12 @@
                                         <td>
                                             <span v-for="permission in role.permissions" :key="permission.id" class="badge badge-primary p-1 px-2 mr-1">{{ permission.name }}</span>
                                         </td>
-                                        <td>Action</td>
+                                        <td>
+                                            <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                                <router-link :to="{ name: 'roles.edit', params: { id: role.id } }" class="btn btn-info btn-sm"><i class="far fa-edit"></i></router-link>
+                                                <a href="javascript:void(0)" @click="delete_role(role.id)" class="btn btn-danger btn-sm" ><i class="fas fa-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tbody v-else>

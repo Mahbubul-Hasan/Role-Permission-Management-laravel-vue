@@ -22,7 +22,7 @@
                                 <label for="inputRole" class="form-control-label col-sm-3 text-md-right">Role <span class="text-danger">*</span></label>
                                 <div class="col-sm-6 col-md-9">
                                     <input type="text" name="role" v-model="form.role" class="form-control" id="inputRole" required />
-                                    <div v-if="form.errors.has('role')" v-html="form.errors.get('name')" />
+                                    <div v-if="form.errors.has('role')" v-html="form.errors.get('role')" class="text-danger"/>
                                 </div>
                             </div>
 
@@ -67,7 +67,7 @@ import Form from 'vform'
 export default {
     data: () => ({
         form: new Form({
-            name: '',
+            role: '',
             permissions: []
         })
     }),
