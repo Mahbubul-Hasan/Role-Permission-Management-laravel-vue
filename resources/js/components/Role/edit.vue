@@ -34,7 +34,7 @@
                                         <label class="custom-control-label" for="check-all" ><h6 class="text-capitalize font-weight-bolder" > All </h6></label >
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-2 mt-3" v-for="(items, key) in permissions" :key="items.id" >
+                                        <div class="col-sm-3 mt-3" v-for="(items, key) in permissions" :key="items.id" >
                                             <div class="custom-control custom-checkbox" >
                                                 <input type="checkbox" class="permission-group-name permission-checkbox custom-control-input" :id="`check-all-${ key }`" />
                                                 <label class="custom-control-label" :for="`check-all-${ key }`" ><h6 class="text-capitalize font-weight-bolder" > {{ key }} </h6></label >
@@ -77,17 +77,17 @@ export default {
     },
 
     created(){
+        let this_data = this;
         axios.get(`/api/roles/${this.$route.params.id}/edit`).then(({ data }) => {
             this.form.role = data.role.name;
 
-            for (let i = 0; i < data.permissions.length; i++) {
-                for (let j = 0; j < data.rolePermissions.length; j++) {
-                    if (data.permissions[i].id == data.rolePermissions[j].id) {
-                        this.form.permissions.push(data.rolePermissions[j].id)
+            $.each(data.permissions, function(key_i, value_i) {
+                $.each(data.rolePermissions, function(key_j, value_j) {
+                    if (value_i.id == value_j.id) {
+                        this_data.form.permissions.push(value_j.id)
                     }
-                }
-
-            }
+                })
+            });
         });
     },
 

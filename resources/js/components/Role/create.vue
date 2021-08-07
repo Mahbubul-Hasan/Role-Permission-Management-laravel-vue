@@ -34,7 +34,7 @@
                                         <label class="custom-control-label" for="check-all" ><h6 class="text-capitalize font-weight-bolder" > All </h6></label >
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-2 mt-3" v-for="(items, key) in permissions" :key="items.id" >
+                                        <div class="col-sm-3 mt-3" v-for="(items, key) in permissions" :key="items.id" >
                                             <div class="custom-control custom-checkbox" >
                                                 <input type="checkbox" class="permission-group-name permission-checkbox custom-control-input" :id="`check-all-${ key }`" />
                                                 <label class="custom-control-label" :for="`check-all-${ key }`" ><h6 class="text-capitalize font-weight-bolder" > {{ key }} </h6></label >
@@ -57,13 +57,11 @@
                 </div>
             </form>
         </div>
-
     </div>
 </template>
 
 <script>
 import Form from 'vform'
-
 export default {
     data: () => ({
         form: new Form({
@@ -71,17 +69,14 @@ export default {
             permissions: []
         })
     }),
-
     mounted() {
         this.$store.dispatch("permissions");
     },
-
     computed: {
         permissions() {
-            return this.$store.getters.permissions;
+             return this.$store.getters.permissions;
         }
     },
-
     methods: {
         save_role () {
             this.form.post('/api/roles').then((response) => {

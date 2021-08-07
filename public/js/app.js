@@ -1938,7 +1938,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2065,17 +2064,17 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    var this_data = this;
     axios.get("/api/roles/".concat(this.$route.params.id, "/edit")).then(function (_ref) {
       var data = _ref.data;
       _this.form.role = data.role.name;
-
-      for (var i = 0; i < data.permissions.length; i++) {
-        for (var j = 0; j < data.rolePermissions.length; j++) {
-          if (data.permissions[i].id == data.rolePermissions[j].id) {
-            _this.form.permissions.push(data.rolePermissions[j].id);
+      $.each(data.permissions, function (key_i, value_i) {
+        $.each(data.rolePermissions, function (key_j, value_j) {
+          if (value_i.id == value_j.id) {
+            this_data.form.permissions.push(value_j.id);
           }
-        }
-      }
+        });
+      });
     });
   },
   computed: {
@@ -2169,9 +2168,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      create_role: 0,
+      edit_role: 0,
+      delete_role: 0
+    };
+  },
   mounted: function mounted() {
     this.$store.dispatch("roles");
+    this.user_has_create_permission();
+    this.user_has_edit_permission();
+    this.user_has_delete_permission();
+  },
+  methods: {
+    user_has_create_permission: function user_has_create_permission() {
+      var _this = this;
+
+      axios.get("users/hasPermission/Create role").then(function (_ref) {
+        var data = _ref.data;
+        _this.create_role = data;
+      });
+    },
+    user_has_edit_permission: function user_has_edit_permission() {
+      var _this2 = this;
+
+      axios.get("users/hasPermission/Edit role").then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.edit_role = data;
+      });
+    },
+    user_has_delete_permission: function user_has_delete_permission() {
+      var _this3 = this;
+
+      axios.get("users/hasPermission/Delete role").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.delete_role = data;
+      });
+    }
   },
   computed: {
     roles: function roles() {
@@ -41340,7 +41377,7 @@ var render = function() {
                         _vm._l(_vm.permissions, function(items, key) {
                           return _c(
                             "div",
-                            { key: items.id, staticClass: "col-sm-2 mt-3" },
+                            { key: items.id, staticClass: "col-sm-3 mt-3" },
                             [
                               _c(
                                 "div",
@@ -41675,7 +41712,7 @@ var render = function() {
                         _vm._l(_vm.permissions, function(items, key) {
                           return _c(
                             "div",
-                            { key: items.id, staticClass: "col-sm-2 mt-3" },
+                            { key: items.id, staticClass: "col-sm-3 mt-3" },
                             [
                               _c(
                                 "div",
@@ -41944,15 +41981,20 @@ var render = function() {
             "div",
             { staticClass: "card-header d-flex flex-row-reverse px-0" },
             [
-              _c(
-                "router-link",
-                {
-                  staticClass:
-                    "btn btn-primary btn-icon icon-left rounded-0 text-light",
-                  attrs: { to: { name: "roles.create" } }
-                },
-                [_c("i", { staticClass: "fas fa-plus" }), _vm._v("Add Role")]
-              )
+              _vm.create_role
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass:
+                        "btn btn-primary btn-icon icon-left rounded-0 text-light",
+                      attrs: { to: { name: "roles.create" } }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus" }),
+                      _vm._v("Add Role")
+                    ]
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -41998,33 +42040,37 @@ var render = function() {
                                 }
                               },
                               [
-                                _c(
-                                  "router-link",
-                                  {
-                                    staticClass: "btn btn-info btn-sm",
-                                    attrs: {
-                                      to: {
-                                        name: "roles.edit",
-                                        params: { id: role.id }
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "far fa-edit" })]
-                                ),
+                                _vm.edit_role
+                                  ? _c(
+                                      "router-link",
+                                      {
+                                        staticClass: "btn btn-info btn-sm",
+                                        attrs: {
+                                          to: {
+                                            name: "roles.edit",
+                                            params: { id: role.id }
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "far fa-edit" })]
+                                    )
+                                  : _vm._e(),
                                 _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { href: "javascript:void(0)" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.delete_role(role.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-trash" })]
-                                )
+                                _vm.delete_role
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: { href: "javascript:void(0)" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.delete_role(role.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-trash" })]
+                                    )
+                                  : _vm._e()
                               ],
                               1
                             )
@@ -60436,7 +60482,8 @@ var index = {
 /******/ 				}
 /******/ 				if(fulfilled) {
 /******/ 					deferred.splice(i--, 1)
-/******/ 					result = fn();
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
