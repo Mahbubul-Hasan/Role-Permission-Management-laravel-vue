@@ -2584,8 +2584,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      create_user: 0,
+      edit_user: 0,
+      delete_user: 0
+    };
+  },
   mounted: function mounted() {
     this.fetch_users();
+    this.user_has_create_permission();
+    this.user_has_edit_permission();
+    this.user_has_delete_permission();
   },
   computed: {
     users: function users() {
@@ -2610,6 +2620,30 @@ __webpack_require__.r(__webpack_exports__);
           console.log(error);
         });
       }
+    },
+    user_has_create_permission: function user_has_create_permission() {
+      var _this2 = this;
+
+      axios.get("users/hasPermission/Create user").then(function (_ref) {
+        var data = _ref.data;
+        _this2.create_user = data;
+      });
+    },
+    user_has_edit_permission: function user_has_edit_permission() {
+      var _this3 = this;
+
+      axios.get("users/hasPermission/Edit user").then(function (_ref2) {
+        var data = _ref2.data;
+        _this3.edit_user = data;
+      });
+    },
+    user_has_delete_permission: function user_has_delete_permission() {
+      var _this4 = this;
+
+      axios.get("users/hasPermission/Delete user").then(function (_ref3) {
+        var data = _ref3.data;
+        _this4.delete_user = data;
+      });
     }
   }
 });
@@ -41587,15 +41621,13 @@ var staticRenderFns = [
         attrs: { type: "checkbox", id: "check-all" }
       }),
       _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "custom-control-label", attrs: { for: "check-all" } },
-        [
-          _c("h6", { staticClass: "text-capitalize font-weight-bolder" }, [
-            _vm._v(" All ")
-          ])
-        ]
-      )
+      _c("label", {
+        staticClass: "custom-control-label",
+        attrs: { for: "check-all" }
+      }),
+      _c("h6", { staticClass: "text-capitalize font-weight-bolder" }, [
+        _vm._v(" All ")
+      ])
     ])
   },
   function() {
@@ -42871,15 +42903,20 @@ var render = function() {
             "div",
             { staticClass: "card-header d-flex flex-row-reverse px-0" },
             [
-              _c(
-                "router-link",
-                {
-                  staticClass:
-                    "btn btn-primary btn-icon icon-left rounded-0 text-light",
-                  attrs: { to: { name: "users.create" } }
-                },
-                [_c("i", { staticClass: "fas fa-plus" }), _vm._v("Add User")]
-              )
+              _vm.create_user
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass:
+                        "btn btn-primary btn-icon icon-left rounded-0 text-light",
+                      attrs: { to: { name: "users.create" } }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus" }),
+                      _vm._v("Add User")
+                    ]
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -42927,33 +42964,37 @@ var render = function() {
                                 }
                               },
                               [
-                                _c(
-                                  "router-link",
-                                  {
-                                    staticClass: "btn btn-info btn-sm",
-                                    attrs: {
-                                      to: {
-                                        name: "users.edit",
-                                        params: { id: user.id }
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "far fa-edit" })]
-                                ),
+                                _vm.edit_user
+                                  ? _c(
+                                      "router-link",
+                                      {
+                                        staticClass: "btn btn-info btn-sm",
+                                        attrs: {
+                                          to: {
+                                            name: "users.edit",
+                                            params: { id: user.id }
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "far fa-edit" })]
+                                    )
+                                  : _vm._e(),
                                 _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { href: "javascript:void(0)" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.delete_user(user.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fas fa-trash" })]
-                                )
+                                _vm.delete_user
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: { href: "javascript:void(0)" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.delete_user(user.id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-trash" })]
+                                    )
+                                  : _vm._e()
                               ],
                               1
                             )

@@ -14,7 +14,7 @@
             <div class="card row" id="settings-card">
                 <div class="col-12">
                     <div class="card-header d-flex flex-row-reverse px-0">
-                        <router-link :to="{name: 'users.create'}" class="btn btn-primary btn-icon icon-left rounded-0 text-light"><i class="fas fa-plus"></i>Add User</router-link>
+                        <router-link v-if="create_user" :to="{name: 'users.create'}" class="btn btn-primary btn-icon icon-left rounded-0 text-light"><i class="fas fa-plus"></i>Add User</router-link>
                     </div>
                     <div class="card-body px-0">
                         <div class="table-responsive">
@@ -38,8 +38,8 @@
                                         </td>
                                         <td>
                                             <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                                <router-link :to="{ name: 'users.edit', params: { id: user.id } }" class="btn btn-info btn-sm"><i class="far fa-edit"></i></router-link>
-                                                <a href="javascript:void(0)" @click="delete_user(user.id)" class="btn btn-danger btn-sm" ><i class="fas fa-trash"></i></a>
+                                                <router-link v-if="edit_user" :to="{ name: 'users.edit', params: { id: user.id } }" class="btn btn-info btn-sm"><i class="far fa-edit"></i></router-link>
+                                                <a v-if="delete_user" href="javascript:void(0)" @click="delete_user(user.id)" class="btn btn-danger btn-sm" ><i class="fas fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -62,8 +62,17 @@
 
 <script>
 export default {
+    data: () => ({
+        create_user: 0,
+        edit_user: 0,
+        delete_user: 0,
+    }),
+
     mounted() {
         this.fetch_users();
+        this.user_has_create_permission()
+        this.user_has_edit_permission()
+        this.user_has_delete_permission()
     },
 
     computed: {
@@ -88,6 +97,22 @@ export default {
                     console.log(error);
                 })
             }
+        },
+
+        user_has_create_permission() {
+            axios.get(`users/hasPermission/Create user`).then(({data}) => {
+                this.create_user = data;
+            })
+        },
+        user_has_edit_permission() {
+            axios.get(`users/hasPermission/Edit user`).then(({data}) => {
+                this.edit_user = data;
+            })
+        },
+        user_has_delete_permission() {
+            axios.get(`users/hasPermission/Delete user`).then(({data}) => {
+                this.delete_user = data;
+            })
         }
     }
 };
